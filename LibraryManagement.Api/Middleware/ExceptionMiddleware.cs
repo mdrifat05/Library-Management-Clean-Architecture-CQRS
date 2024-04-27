@@ -1,15 +1,18 @@
 ﻿using LibraryManagement.Application.Exceptions;
 using Newtonsoft.Json;
 using System.Net;
+using Serilog;
 
 namespace LibraryManagement.Api.Middleware;
 
 public class ExceptionMiddleware
 {
     private readonly RequestDelegate _next;
-    public ExceptionMiddleware(RequestDelegate next)
+    private readonly ILogger<ExceptionMiddleware> _logger;
+    public ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger)
     {
         _next = next;
+        _logger = logger;
     }
     public async Task InvokeAsync(HttpContext httpContext)
     {
@@ -31,6 +34,8 @@ public class ExceptionMiddleware
             ErrorMessage = exception.Message,
             ErrorType = "Failure"
         });
+
+        _logger.LogError(result);
 
         switch (exception)
         {

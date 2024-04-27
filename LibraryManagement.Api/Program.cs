@@ -1,14 +1,24 @@
 using LibraryManagement.Api.Middleware;
 using LibraryManagement.Application;
 using LibraryManagement.Infrastructure;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddHttpContextAccessor();
-builder.Services.ConfigureApplicationServices();
-builder.Services.ConfigurePersistanceServices(builder.Configuration);
+builder.Services
+        .AddHttpContextAccessor()
+        .ConfigureApplicationServices()
+        .ConfigureInfrastructureService(builder.Configuration);
 
+//Serilog configuration
+builder.Host.UseSerilog((HostBuilderContext context,
+    IServiceProvider services,
+    LoggerConfiguration loggerConfiguration) =>
+{
+    loggerConfiguration.ReadFrom.Configuration(context.Configuration)
+    .ReadFrom.Services(services);
+});
 
 builder.Services.AddCors(o =>
 {

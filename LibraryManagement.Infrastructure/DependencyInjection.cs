@@ -9,7 +9,7 @@ namespace LibraryManagement.Infrastructure;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection ConfigurePersistanceServices(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection ConfigureInfrastructureService(this IServiceCollection services, IConfiguration configuration)
     {
 
         services.AddDbContext<LibraryManagementDbContext>(options =>

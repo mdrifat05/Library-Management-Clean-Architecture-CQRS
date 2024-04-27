@@ -36,8 +36,8 @@ public class UnitOfWork : IUnitOfWork
 
     public async Task Save() 
     {
-        //var username = _httpContextAccessor.HttpContext.User.FindFirst(CustomClaimTypes.Uid)?.Value;
+        var username = _httpContextAccessor.HttpContext.User.FindFirst(CustomClaimTypes.Uid)?.Value;
 
-        await _context.SaveChangesAsync(); //username
+        await _context.SaveChangesAsync(username); //username
     }
 }
